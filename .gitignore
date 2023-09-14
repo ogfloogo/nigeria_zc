@@ -17,3 +17,4 @@ node_modules
 /application/database.php
 /application/extra/site.php
 .htaccess
+/thinkphp/library/think/cache/driver/Redis.php
