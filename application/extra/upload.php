@@ -9,7 +9,7 @@ return [
     /**
      * CDN地址
      */
-    'cdnurl'    => 'https://api.alaoph.org',
+    'cdnurl'    => 'https://api.risecrowd.org',
     /**
      * 文件保存格式
      */
