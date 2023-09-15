@@ -89,6 +89,9 @@ class Demo extends Controller
         $Qrcode->png($url, $filename, $errorCorrectionLevel, $matrixPointSize, 2);
     }
 
+    /**
+     * 机器人头像
+     */
     public function robotimage()
     {
         $res = robotimage();
@@ -168,7 +171,7 @@ class Demo extends Controller
         $return = [];
         for ($i = 0; $i < 500; $i++) {
             //随机电话号段
-            $my_array = array("9");
+            $my_array = array("802","803","804","805","809");
             $length = count($my_array) - 1;
             $hd = rand(0, $length);
             $begin = $my_array[$hd];
@@ -177,7 +180,7 @@ class Demo extends Controller
             $b = rand(100, 999);
             $f = mt_rand(1, 6);
             $hand = '/uploads/avatar.png';
-            $return[$i]['name'] = $begin . $a . '****' . $b;
+            $return[$i]['name'] = $begin . '***' . $a;
             $return[$i]['avatar'] = $hand;
             $return[$i]['buytime'] = $i;
         }
