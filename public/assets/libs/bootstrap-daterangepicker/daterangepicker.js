@@ -25,7 +25,7 @@
         module.exports = factory(moment, jQuery);
     } else {
         // Browser globals
-        moment.tz.setDefault("Asia/Manila");
+        moment.tz.setDefault("Africa/Lagos");
         root.daterangepicker = factory(root.moment, root.jQuery);
     }
 }(this, function(moment, $) {
