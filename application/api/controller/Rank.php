@@ -77,4 +77,13 @@ class Rank extends Controller
         $this->success('The request is successful',$return);
     }
 
+    public function fundtype()
+    {
+        $return = [
+            1 => config('site.fund_type1'),
+            2 => config('site.fund_type2'),
+            3 => config('site.fund_type3'),
+        ];
+        $this->success('The request is successful',$return);
+    }
 }
