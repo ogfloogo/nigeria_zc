@@ -99,12 +99,22 @@ class Ppay extends Model
      */
     public function withdraw($data, $channel)
     {
+        $bank_code =  json_decode(config('site.bank_code'),true);
+        foreach ($bank_code as $value){
+            if($value['label'] == $data['bankname']){
+                $bankname = $value['value'];
+                break;
+            }
+        }
+        if(empty($bankname)){
+            return ['code'=>'FAIL','msg'=>'找不到银行'];
+        }
         $param = array(
             'merNo' => $channel['merchantid'],
             'merchantOrderNo' => $data['order_id'],
             "currency" => "NGN",
             'amount' => $data['trueprice'],
-            'bankCode' => $data['bankname'],
+            'bankCode' => $bankname,
             'customerName' => $data['username'], //收款姓名
             'customerAccount' => $data['bankcard'], //收款账号
             // 'accth' => $data['ifsc'],//
