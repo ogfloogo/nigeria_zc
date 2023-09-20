@@ -25,13 +25,13 @@ class Financeproject extends Controller
                 $info['can_buy'] = 0;
             }
         }
-        $info['total_profit'] = bcmul($info['interest'],$info['day'],2);
+        $info['total_profit'] = bcmul($info['interest'],$info['day'],0);
         $fixed_amount = $info['popularize']==2?0:$info['fixed_amount'];
-        $info['total_revenue'] = bcadd($info['total_profit'],$fixed_amount,2);
+        $info['total_revenue'] = bcadd($info['total_profit'],$fixed_amount,0);
         if($info['type'] == 2){
             $info['daily_income'] = $info['interest'];
         }else{
-            $info['daily_income'] = bcadd($info['capital'],$info['interest'],2);
+            $info['daily_income'] = bcadd($info['capital'],$info['interest'],0);
         }
         $level = (new Teamlevel())->detail($info['buy_level']);
         $info['buy_level_name'] = $level['name']??'';
