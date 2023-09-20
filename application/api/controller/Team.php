@@ -360,11 +360,11 @@ class Team extends Controller
                 'buy_level' => $value['buy_level'],
                 'buy_level_name' => $level['name']??'',
                 'buy_level_image' => !empty($level['image'])?format_image($level['image']):'',
-                'property' => bcadd($value['money'],$order_money,2),
+                'property' => bcadd($value['money'],$order_money,0),
                 'profit' => (new Usertotal())->where(['user_id'=>$value['id']])->value('crowdfunding_income'),
-                'commission' => bcadd($user_commission->where(['to_id'=>$userInfo['id'],'from_id'=>$value['id']])->sum('commission'),0,2),
+                'commission' => bcadd($user_commission->where(['to_id'=>$userInfo['id'],'from_id'=>$value['id']])->sum('commission'),0,0),
 //                'award' => (new Popularizeuser())->where(['pid'=>$userInfo['id'],'user_id'=>$value['id'],'is_condition'=>1])->sum('award')??0,
-                'recharge' => bcadd((new Usertotal())->where(['user_id'=>$value['id']])->value('total_recharge'),0,2),
+                'recharge' => bcadd((new Usertotal())->where(['user_id'=>$value['id']])->value('total_recharge'),0,0),
             ];
             if($value['level'] == 0&&$value['buy_level'] == 0){
                 //普通用户
@@ -386,8 +386,8 @@ class Team extends Controller
         $level_text = $level2==1?'first':'second';
         $return['statistics'] = [
             'rate' => config("site.{$level_text}_team"),
-            'total_recharge' => bcadd((new Usertotal())->where(['user_id'=>['in',$user_ids]])->sum('total_recharge'),0,2),
-            'total_commission' => bcadd((new Usertotal())->where(['user_id'=>$userInfo['id']])->value("{$level_text}_commission"),0,2),
+            'total_recharge' => bcadd((new Usertotal())->where(['user_id'=>['in',$user_ids]])->sum('total_recharge'),0,0),
+            'total_commission' => bcadd((new Usertotal())->where(['user_id'=>$userInfo['id']])->value("{$level_text}_commission"),0,0),
             'team_num' => count($user_ids),
             'partner_num' => (new \app\api\model\User())->where(['id'=>['in',$user_ids],'level'=>['<>',0]])->count()
         ];
