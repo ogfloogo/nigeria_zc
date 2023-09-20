@@ -406,7 +406,7 @@ class User extends Controller
         $listTypeReward = (new Usermoneylog())->listTypeReward(1,20,'english',$user_id,[27,28,29]);
         $accumulated_rewards = $listTypeReward['total'];
         $userInfo['total_earning'] = bcadd(($total_commission + $group_buying_commission), ($head_of_the_reward + $invite_commission + $exchangemoney + $promotion_award
-            + $cash_award + $salary + $crowdfunding_income + $accumulated_rewards), 2);
+            + $cash_award + $salary + $crowdfunding_income + $accumulated_rewards), 0);
         $this->success('', $userInfo);
     }
 
