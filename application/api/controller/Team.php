@@ -301,7 +301,7 @@ class Team extends Controller
             $return['my_team'] = [
                 'level1' => [
                     'rate' => config('site.first_team'),
-                    'recharge' => bcadd((new Usertotal())->where(['user_id'=>['in',$level1_user]])->sum('total_recharge'),0,2),
+                    'recharge' => bcadd((new Usertotal())->where(['user_id'=>['in',$level1_user]])->sum('total_recharge'),0,0),
                     'commission' => (new Usertotal())->where(['user_id'=>$userInfo['id']])->value('first_commission'),
                     'team_num' => count($level1_user),
                     'partner_num' => (new \app\api\model\User())->where(['id'=>['in',$level1_user],'level'=>['<>',0]])->count()
@@ -309,7 +309,7 @@ class Team extends Controller
 
                 'level2' => [
                     'rate' => config('site.second_team'),
-                    'recharge' => bcadd((new Usertotal())->where(['user_id'=>['in',$level2_user]])->sum('total_recharge'),0,2),
+                    'recharge' => bcadd((new Usertotal())->where(['user_id'=>['in',$level2_user]])->sum('total_recharge'),0,0),
                     'commission' => (new Usertotal())->where(['user_id'=>$userInfo['id']])->value('second_commission'),
                     'team_num' => count($level2_user),
                     'partner_num' => (new \app\api\model\User())->where(['id'=>['in',$level2_user],'level'=>['<>',0]])->count()
@@ -317,9 +317,9 @@ class Team extends Controller
             ];
             $user_total = (new Usertotal())->where(['user_id'=>$userInfo['id']])->find();
             $return['statistics'] = [
-                'total_income' => bcadd($user_total['first_commission'],$user_total['second_commission'],2),
+                'total_income' => bcadd($user_total['first_commission'],$user_total['second_commission'],0),
                 'total_team_num' => $return['my_team']['level1']['team_num'] + $return['my_team']['level2']['team_num'],
-                'total_recharge' => bcadd($return['my_team']['level1']['recharge'],$return['my_team']['level2']['recharge'],2),
+                'total_recharge' => bcadd($return['my_team']['level1']['recharge'],$return['my_team']['level2']['recharge'],0),
             ];
             $this->success(__('The request is successful'), $return);
 //        }
