@@ -112,13 +112,13 @@ class Finance extends Controller
                     $level = (new Teamlevel())->detail($v['buy_level']);
                     $v['buy_level_name'] = $level['name'] ?? '';
                     $v['buy_level_image'] = !empty($level['image']) ? format_image($level['image']) : '';
-                    $v['total_profit'] = bcmul($v['interest'], $v['day'], 2);
+                    $v['total_profit'] = bcmul($v['interest'], $v['day'], 0);
                     $fixed_amount = $v['popularize'] == 2 ? 0 : $v['fixed_amount'];
-                    $v['total_revenue'] = bcadd($v['total_profit'], $fixed_amount, 2);
+                    $v['total_revenue'] = bcadd($v['total_profit'], $fixed_amount, 0);
                     if ($v['type'] == 2) {
                         $v['daily_income'] = $v['interest'];
                     } else {
-                        $v['daily_income'] = bcadd($v['capital'], $v['interest'], 2);
+                        $v['daily_income'] = bcadd($v['capital'], $v['interest'], 0);
                     }
                     $v['buy_num'] = (new \app\api\model\Financeorder())->where(['project_id' => $v['id']])->group('user_id')->count();
                     $v['roi'] = bcmul($v['rate'], $v['day'], 2);
