@@ -297,13 +297,13 @@ class Financeorder extends Controller
             'invite_money' => $project_info['fixed_amount'],
             'popularize' => $project_info['popularize']
         ];
-        $return['total_profit'] = bcmul($info['interest'], $project_info['day'], 2);
+        $return['total_profit'] = bcmul($info['interest'], $project_info['day'], 0);
         $amount = $info['popularize'] == 2 ? 0 : $info['amount'];
-        $return['total_revenue'] = bcadd($return['total_profit'], $amount, 2);
+        $return['total_revenue'] = bcadd($return['total_profit'], $amount, 0);
         if ($project_info['type'] == 2) {
-            $return['daily_income'] = bcmul($project_info['interest'], $info['copies'], 2);
+            $return['daily_income'] = bcmul($project_info['interest'], $info['copies'], 0);
         } else {
-            $return['daily_income'] = bcadd($project_info['capital'] * $info['copies'], $project_info['interest'] * $info['copies'], 2);
+            $return['daily_income'] = bcadd($project_info['capital'] * $info['copies'], $project_info['interest'] * $info['copies'], 0);
         }
         $level = (new Teamlevel())->detail($project_info['buy_level']);
         $return['buy_level_name'] = $level['name'] ?? '';
