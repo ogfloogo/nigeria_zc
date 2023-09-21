@@ -118,8 +118,6 @@ class Controller extends \think\Controller
         $tokens = $redis->handler()->get("token:" . $this->token);
         $tokenss = (new UserModel())->where('token', $this->token)->find();
         if (!$tokens || !$tokenss || empty($tokens)) {
-            dump($tokens);
-            dump($tokenss);
             $this->errors(__('Please log in agains'));
         }
 
