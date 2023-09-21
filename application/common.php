@@ -786,3 +786,14 @@ function robotimage()
         }
     }
 }
+function phonenumber()
+{
+    //随机电话号段
+    $my_array = array(802,803,804,805,809);
+    $hd = array_rand($my_array, 1);
+    $begin = $my_array[$hd];
+    $b = rand(100, 999);
+    $nickname = $begin  . '****' . $b;
+    return $nickname;
+}
+
