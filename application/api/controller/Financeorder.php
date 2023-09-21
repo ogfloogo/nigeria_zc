@@ -218,7 +218,7 @@ class Financeorder extends Controller
         foreach ($list as &$value) {
             $project_info = (new Financeproject())->detail($value['project_id'], ['name']);
             $value['name'] = $project_info['name'];
-            $value['estimated_income'] = bcmul($value['interest'], $value['num'], 2);
+            $value['estimated_income'] = bcmul($value['interest'], $value['num'], 0);
             $value['amount'] = $value['popularize'] == 2 ? 0 : $value['amount'];
             $total_amount += $value['amount'];
             $total_income += $value['earnings'];
@@ -234,13 +234,13 @@ class Financeorder extends Controller
                 $value['today_income'] = $value['earnings'] == 0 ? 0 : (date('H:i:s', time()) > date('H:i:s', $value['collection_time']) ? bcdiv($value['earnings'], ($value['num'] - $value['surplus_num']), 2) : 0);
             }
             $value['earning_end_time'] = date('Y-m-d H:i:s', $value['earning_end_time']);
-            $value['total_profit'] = bcmul($value['interest'], $value['num'], 2);
+            $value['total_profit'] = bcmul($value['interest'], $value['num'], 0);
             $amount = $value['popularize'] == 2 ? 0 : $value['amount'];
-            $value['total_revenue'] = bcadd($value['total_profit'], $amount, 2);
+            $value['total_revenue'] = bcadd($value['total_profit'], $amount, 0);
             if ($value['type'] == 2) {
                 $value['daily_income'] = $value['interest'];
             } else {
-                $value['daily_income'] = bcadd($value['capital'], $value['interest'], 2);
+                $value['daily_income'] = bcadd($value['capital'], $value['interest'], 0);
             }
         }
         $field = ['id', 'name', 'file1', 'file2', 'file1_name', 'file2_name', 'popularize'];
