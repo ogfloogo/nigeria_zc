@@ -61,9 +61,9 @@ class Financeorder extends Model
             $insert['collection_time'] = $earning_start_time + 60 * 60 * 24;
 
             $popularize = $project_info['popularize'];
-            $total_profit = bcmul($project_info['interest']*$copies,$project_info['day'],2);//总利润
+            $total_profit = bcmul($project_info['interest']*$copies,$project_info['day'],0);//总利润
             $amount = $popularize==2?0:$price;
-            $total_revenue = bcadd($total_profit,$amount,2);
+            $total_revenue = bcadd($total_profit,$amount,0);
             $insert['estimated_profit'] = $total_profit;
             $insert['estimated_income'] = $total_revenue;
             //创建理财订单
@@ -149,9 +149,9 @@ class Financeorder extends Model
             $return['total_profit'] = $total_profit;
             $return['total_revenue'] = $total_revenue;
             if($project_info['type'] == 2){
-                $return['daily_income'] = bcmul($project_info['interest'],$copies,2);
+                $return['daily_income'] = bcmul($project_info['interest'],$copies,0);
             }else{
-                $return['daily_income'] = bcadd($project_info['capital']*$copies,$project_info['interest']*$copies,2);
+                $return['daily_income'] = bcadd($project_info['capital']*$copies,$project_info['interest']*$copies,0);
             }
             $level = (new Teamlevel())->detail($project_info['buy_level']);
             $return['buy_level_name'] = $level['name']??'';

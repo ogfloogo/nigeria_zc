@@ -218,7 +218,7 @@ class Financeorder extends Controller
         foreach ($list as &$value) {
             $project_info = (new Financeproject())->detail($value['project_id'], ['name']);
             $value['name'] = $project_info['name'];
-            $value['estimated_income'] = bcmul($value['interest'], $value['num'], 2);
+            $value['estimated_income'] = bcmul($value['interest'], $value['num'], 0);
             $value['amount'] = $value['popularize'] == 2 ? 0 : $value['amount'];
             $total_amount += $value['amount'];
             $total_income += $value['earnings'];
@@ -234,13 +234,13 @@ class Financeorder extends Controller
                 $value['today_income'] = $value['earnings'] == 0 ? 0 : (date('H:i:s', time()) > date('H:i:s', $value['collection_time']) ? bcdiv($value['earnings'], ($value['num'] - $value['surplus_num']), 2) : 0);
             }
             $value['earning_end_time'] = date('Y-m-d H:i:s', $value['earning_end_time']);
-            $value['total_profit'] = bcmul($value['interest'], $value['num'], 2);
+            $value['total_profit'] = bcmul($value['interest'], $value['num'], 0);
             $amount = $value['popularize'] == 2 ? 0 : $value['amount'];
-            $value['total_revenue'] = bcadd($value['total_profit'], $amount, 2);
+            $value['total_revenue'] = bcadd($value['total_profit'], $amount, 0);
             if ($value['type'] == 2) {
                 $value['daily_income'] = $value['interest'];
             } else {
-                $value['daily_income'] = bcadd($value['capital'], $value['interest'], 2);
+                $value['daily_income'] = bcadd($value['capital'], $value['interest'], 0);
             }
         }
         $field = ['id', 'name', 'file1', 'file2', 'file1_name', 'file2_name', 'popularize'];
@@ -297,13 +297,13 @@ class Financeorder extends Controller
             'invite_money' => $project_info['fixed_amount'],
             'popularize' => $project_info['popularize']
         ];
-        $return['total_profit'] = bcmul($info['interest'], $project_info['day'], 2);
+        $return['total_profit'] = bcmul($info['interest'], $project_info['day'], 0);
         $amount = $info['popularize'] == 2 ? 0 : $info['amount'];
-        $return['total_revenue'] = bcadd($return['total_profit'], $amount, 2);
+        $return['total_revenue'] = bcadd($return['total_profit'], $amount, 0);
         if ($project_info['type'] == 2) {
-            $return['daily_income'] = bcmul($project_info['interest'], $info['copies'], 2);
+            $return['daily_income'] = bcmul($project_info['interest'], $info['copies'], 0);
         } else {
-            $return['daily_income'] = bcadd($project_info['capital'] * $info['copies'], $project_info['interest'] * $info['copies'], 2);
+            $return['daily_income'] = bcadd($project_info['capital'] * $info['copies'], $project_info['interest'] * $info['copies'], 0);
         }
         $level = (new Teamlevel())->detail($project_info['buy_level']);
         $return['buy_level_name'] = $level['name'] ?? '';

@@ -37,12 +37,12 @@ class Popularizeaward extends Controller
             $level = (new Teamlevel())->detail($v['buy_level']);
             $v['buy_level_name'] = $level['name']??'';
             $v['buy_level_image'] = !empty($level['image'])?format_image($level['image']):'';
-            $v['total_profit'] = bcmul($v['interest'],$v['day'],2);
-            $v['total_revenue'] = bcadd($v['total_profit'],$v['fixed_amount'],2);
+            $v['total_profit'] = bcmul($v['interest'],$v['day'],0);
+            $v['total_revenue'] = bcadd($v['total_profit'],$v['fixed_amount'],0);
             if($v['type'] == 2){
                 $v['daily_income'] = $v['interest'];
             }else{
-                $v['daily_income'] = bcadd($v['capital'],$v['interest'],2);
+                $v['daily_income'] = bcadd($v['capital'],$v['interest'],0);
             }
         }
         $finance_info['project_info'] = $project_info;
