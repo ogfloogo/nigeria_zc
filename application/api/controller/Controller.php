@@ -113,7 +113,7 @@ class Controller extends \think\Controller
         $redis = new Redis();
         $redis->handler()->select(1);
         if (!$this->token) {
-            $this->errors(__('Please log in again'));
+            $this->errors(__('Please log in agains'));
         }
         $tokens = $redis->handler()->get("token:" . $this->token);
         $tokenss = (new UserModel())->where('token', $this->token)->find();
