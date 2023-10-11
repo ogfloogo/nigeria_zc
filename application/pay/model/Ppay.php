@@ -18,9 +18,9 @@ use think\Exception;
 class Ppay extends Model
 {
     //代付提单url(提现)
-    public $dai_url = 'https://withdraw.ppayglobal.com/withdraw/createOrder';
+    public $dai_url = 'https://withdraw.pollsypay.com/withdraw/createOrder';
     //代收提交url(充值)
-    public $pay_url = 'https://ord.ppayglobal.com/pay/order';
+    public $pay_url = 'https://ord.pollsypay.com/pay/order';
     //代付回调(提现)
     public $notify_dai = 'https://api.risecrowd.org/pay/ppay/paydainotify';
     //代收回调(充值)
@@ -28,7 +28,7 @@ class Ppay extends Model
     //支付成功跳转地址    
     public $callback_url = 'https://www.risecrowd.org/topupstatus/?orderid=';
     //代收秘钥
-    public $key = "1f780806290644788016a49030a46521";
+    public $key = "371f7e6e8112415b91f8496a10406313";
     //代付秘钥
     public function pay($order_id, $price, $userinfo, $channel_info)
     {
