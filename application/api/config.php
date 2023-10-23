@@ -4,6 +4,6 @@
 return [
     'exception_handle'        => '\\app\\api\\library\\ExceptionHandle',
     'default_return_type'    => 'json',
-    'image_url' => "https://api.risecrowd.org",
-    'invite_url' => "https://www.risecrowd.org"
+    'image_url' => "https://api.risingfund.org",
+    'invite_url' => "https://www.risingfund.org"
 ];
