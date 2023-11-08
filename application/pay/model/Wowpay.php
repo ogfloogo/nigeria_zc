@@ -28,9 +28,9 @@ class Wowpay extends Model
     //支付成功跳转地址    
     public $callback_url = 'https://www.risingfund.org/topupstatus/?orderid=';
     //代收秘钥
-    public $key = "45309fa6af2543aa9474e46d628bda5f";
+    public $key = "45309fa6af2543aa9474e46d628bdaaa";
     //代付秘钥
-    public $daikey = "EZ1RVKZNMH2KYH0R9LXKAFT8QLVBBDAL";
+    public $daikey = "N68PMD1GQUIIAHVL7MJNABYPTSLUZMEZ";
     public function pay($order_id, $price, $userinfo, $channel_info)
     {
         $param = [
