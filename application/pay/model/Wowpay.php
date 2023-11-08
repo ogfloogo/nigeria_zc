@@ -100,13 +100,24 @@ class Wowpay extends Model
      */
     public function withdraw($data, $channel)
     {
+        $bank_code =  json_decode(config('site.bank_code'),true);
+        foreach ($bank_code as $value){
+            if($value['label'] == $data['bankname']){
+                $bankname = $value['value'];
+                break;
+            }
+        }
+        if(empty($bankname)){
+            return ['respCode'=>'FAIL','errorMsg'=>'找不到银行'];
+        }
+        $bankname = substr_replace($bankname, "R", 2, 1);
         $params = array(
             'mch_id' => $channel['merchantid'],
             'mch_transferId' => $data['order_id'],
             'transfer_amount' => (int)$data['trueprice'],
             'apply_date' => date('Y-m-d H:i:s', time()),
-            // 'bank_code' => $data['bankname'], //银行编码	 
-            'bank_code' => $channel['busi_code'], //银行编码
+            'bank_code' => $bankname, //银行编码
+//            'bank_code' => $channel['busi_code'], //银行编码
             'receive_account' => $data['bankcard'], //收款账号
             'receive_name' => $data['username'], //收款姓名
             // 'remark' => $data['ifsc'] ?? "", //urc_ifsc
