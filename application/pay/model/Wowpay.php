@@ -28,9 +28,9 @@ class Wowpay extends Model
     //支付成功跳转地址    
     public $callback_url = 'https://www.alaoph.org/topupstatus/?orderid=';
     //代收秘钥
-    public $key = "6b176175c8394db6b0d2a7e20a6c6aae";
+    public $key = "45309fa6af2543aa9474e46d628bda5f";
     //代付秘钥
-    public $daikey = "QREM68US0SC3RVG9EXCXWVXC3LMDESQ3";
+    public $daikey = "EZ1RVKZNMH2KYH0R9LXKAFT8QLVBBDAL";
     public function pay($order_id, $price, $userinfo, $channel_info)
     {
         $param = [
