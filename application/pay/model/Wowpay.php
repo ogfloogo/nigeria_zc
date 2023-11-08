@@ -22,11 +22,11 @@ class Wowpay extends Model
     //代收提交url(充值)
     public $pay_url = 'https://pay6de1c7.wowpayglb.com/pay/web';
     //代付回调(提现)
-    public $notify_dai = 'https://api.alaoph.org/pay/wowpay/paydainotify';
+    public $notify_dai = 'https://api.risingfund.org/pay/wowpay/paydainotify';
     //代收回调(充值)
-    public $notify_pay = 'https://api.alaoph.org/pay/wowpay/paynotify';
+    public $notify_pay = 'https://api.risingfund.org/pay/wowpay/paynotify';
     //支付成功跳转地址    
-    public $callback_url = 'https://www.alaoph.org/topupstatus/?orderid=';
+    public $callback_url = 'https://www.risingfund.org/topupstatus/?orderid=';
     //代收秘钥
     public $key = "45309fa6af2543aa9474e46d628bda5f";
     //代付秘钥
