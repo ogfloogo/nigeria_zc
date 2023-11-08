@@ -44,7 +44,7 @@ class Wowpay extends Model
             'order_date' => date('Y-m-d H:i:s', time()),
             'goods_name' => "goodsname",
         ];
-        $sign = $this->generateSign($param, $channel_info['secret']);
+        $sign = $this->generateSign($param, $this->key);
         $param['sign'] = $sign;
         $param['sign_type'] = "MD5";
         Log::mylog("提交参数", $param, "wowpay");
@@ -55,6 +55,7 @@ class Wowpay extends Model
             $return_array = [
                 'code' => 1,
                 'payurl' => !empty(urlencode($return_array['payInfo'])) ? urlencode($return_array['payInfo']) : '',
+                'type' => 1
             ];
         } else {
             $return_array = [
