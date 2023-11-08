@@ -19,7 +19,7 @@ use app\pay\model\Mpay;
 use app\pay\model\Nicepay;
 use app\pay\model\Ppay;
 use app\pay\model\Rpay;
-use app\pay\model\Savepay;
+use app\pay\model\Safepay;
 use app\pay\model\Shpay;
 use app\pay\model\Solpay;
 use app\pay\model\Startpay;
@@ -239,8 +239,8 @@ class UserCash extends Backend
             }
             // $params['order_no'] = $order['transId'] ?? '';
             $params['channel'] = $withdrawChannel['name'];
-        }elseif($withdrawChannel['model'] == 'savepay'){
-            $order = (new Savepay())->withdraw($row,$withdrawChannel);
+        }elseif($withdrawChannel['model'] == 'safepay'){
+            $order = (new Safepay())->withdraw($row,$withdrawChannel);
             $order = json_decode($order, true);
             if (empty($order)) {
                 $this->error("提现失败");
@@ -530,8 +530,8 @@ class UserCash extends Backend
             }
             // $params['order_no'] = $order['transId'] ?? '';
             $params['channel'] = $withdrawChannel['name'];
-        }elseif($withdrawChannel['model'] == 'savepay'){
-            $order = (new Savepay())->withdraw($row,$withdrawChannel);
+        }elseif($withdrawChannel['model'] == 'safepay'){
+            $order = (new Safepay())->withdraw($row,$withdrawChannel);
             $order = json_decode($order, true);
             if (empty($order)) {
                 $this->error("提现失败");

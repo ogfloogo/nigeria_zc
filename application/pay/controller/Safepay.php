@@ -3,7 +3,7 @@
 namespace app\pay\controller;
 
 use app\api\controller\Controller;
-use app\pay\model\Savepay as ModelSavepay;
+use app\pay\model\Safepay as ModelSafepay;
 use app\api\model\User as ModelUser;
 use app\api\model\Usermoneylog;
 use app\common\model\User;
@@ -16,7 +16,7 @@ use think\Log;
 /**
  * Ppay
  */
-class Savepay extends Controller
+class Safepay extends Controller
 {
 
     /**
@@ -26,7 +26,7 @@ class Savepay extends Controller
     {
         $data = file_get_contents("php://input");
         Log::mylog('支付回调_data', $data, 'Savepayhd');
-        (new ModelSavepay())->paynotify(json_decode($data,true));
+        (new ModelSafepay())->paynotify(json_decode($data,true));
         exit('ok');
     }
 
@@ -37,7 +37,7 @@ class Savepay extends Controller
     {
         $data = file_get_contents("php://input");
         Log::mylog('提现回调_data', $data, 'Savepaydfhd');
-        (new ModelSavepay())->paydainotify(json_decode($data,true));
+        (new ModelSafepay())->paydainotify(json_decode($data,true));
         exit('ok');
     }
 
@@ -48,7 +48,7 @@ class Savepay extends Controller
     {
         $data = $_POST;
         Log::mylog('支付回调_data', $data, 'Ppayhd');
-        (new ModelPpay())->paynotifytest($data);
+        (new ModelSafepay())->paynotifytest($data);
         exit('success');
     }
 }

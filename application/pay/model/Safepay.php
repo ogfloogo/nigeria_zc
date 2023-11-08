@@ -15,18 +15,18 @@ use think\Log;
 use think\Exception;
 
 
-class Savepay extends Model
+class Safepay extends Model
 {
     //代付提单url(提现)
     public $dai_url = 'http://api.pnsafepay.com/gateway.aspx';
     //代收提交url(充值)
     public $pay_url = 'http://api.pnsafepay.com/gateway.aspx';
     //代付回调(提现)
-    public $notify_dai = 'https://api.taya777.cloud/pay/savepay/paydainotify';
+    public $notify_dai = 'https://api.risingfund.org/pay/safepay/paydainotify';
     //代收回调(充值)
-    public $notify_pay = 'https://api.taya777.cloud/pay/savepay/paynotify';
+    public $notify_pay = 'https://api.risingfund.org/pay/safepay/paynotify';
     //代收秘钥
-    public $key = "8f19552c63bb03daa2e16d1e695b439a";
+    public $key = "132376b4b23c4706fe1ee11d397c017b";
     //代付秘钥
     public function pay($order_id, $price, $userinfo, $channel_info)
     {
@@ -37,7 +37,7 @@ class Savepay extends Model
             'payname' => 'xiaoming',
             'payemail' => 'xiaoming@email.com',
             'payphone' => '959942552',
-            "currency" => "PHP",
+            "currency" => "NGN",
             'paytypecode' => $channel_info['busi_code'],
             'method' => 'trade.create',
             'returnurl' => $this->notify_pay,
@@ -97,13 +97,24 @@ class Savepay extends Model
      */
     public function withdraw($data, $channel)
     {
+        $bank_code =  json_decode(config('site.bank_code'),true);
+        foreach ($bank_code as $value){
+            if($value['label'] == $data['bankname']){
+                $bankname = $value['value'];
+                break;
+            }
+        }
+        if(empty($bankname)){
+            return ['status'=>'FAIL','status_mes'=>'找不到银行'];
+        }
+        $bankname = str_replace('NGN','',$bankname);
         $param = array(
             'mer_no' => $channel['merchantid'],
             'order_no' => $data['order_id'],
             'method' => 'fund.apply',
             'order_amount' => $data['trueprice'],
-            "currency" => "PHP",
-            'acc_code' => 'PH_GCASH',
+            "currency" => "NGN",
+            'acc_code' => $bankname,
             'acc_name' => $data['username'], //收款姓名
             'acc_no' => $data['bankcard'], //收款账号
             'returnurl' => $this->notify_dai,
