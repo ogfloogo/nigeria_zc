@@ -32,7 +32,7 @@ class Shpay extends Model
     //代付秘钥
     public $daikey = "f589cde519a448aa8c1ff8c01c17375c";
     //appid
-    public $appid = "6221800729401520";
+    public $appid = "6735703615020720";
     public function pay($order_id, $price, $userinfo, $channel_info)
     {
         $param = [
