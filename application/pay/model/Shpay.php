@@ -81,6 +81,8 @@ class Shpay extends Model
         if ($params['transStatus'] == "SUCCESS") {
             $sign = $params['sign'];
             unset($params['sign']);
+            unset($params['paymentTransNo']);
+            unset($params['reference']);
             $check = $this->generateSign($params,$this->key);
             if ($sign != $check) {
                 Log::mylog('验签失败', $params, 'Shpayhd');
