@@ -18,9 +18,9 @@ use think\Exception;
 class Shpay extends Model
 {
     //代付提单url(提现)
-    public $dai_url = 'https://openapi.shpays.com/v1/nigeria/trans/payOut';
+    public $dai_url = 'https://transapi.shpays.com/v1/trans/payOut';
     //代收提交url(充值)
-    public $pay_url = 'https://openapi.shpays.com/v1/nigeria/trans/payIn';
+    public $pay_url = 'https://transapi.shpays.com/v1/trans/payIn';
     //代付回调(提现)
     public $notify_dai = 'https://api.risecrowd.org/pay/shpay/paydainotify';
     //代收回调(充值)
