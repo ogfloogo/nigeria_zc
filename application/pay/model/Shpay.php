@@ -216,7 +216,8 @@ class Shpay extends Model
         }
         $params_str = substr($params_str,0,-1).$key;
         Log::mylog('验签串', $params_str, 'Shpay');
-        return strtoupper(md5($params_str));
+        $sign = strtoupper(md5($params_str));
+        return $sign;
     }
 
     function http_post($sUrl, $aHeader, $aData){
