@@ -22,13 +22,13 @@ class Shpay extends Model
     //代收提交url(充值)
     public $pay_url = 'https://openapi.shpays.com/v1/nigeria/trans/payIn';
     //代付回调(提现)
-    public $notify_dai = 'https://api.groupfuns.com/pay/shpay/paydainotify';
+    public $notify_dai = 'https://api.risecrowd.org/pay/shpay/paydainotify';
     //代收回调(充值)
-    public $notify_pay = 'https://api.groupfuns.com/pay/shpay/paynotify';
+    public $notify_pay = 'https://api.risecrowd.org/pay/shpay/paynotify';
     //支付成功跳转地址    
-    public $callback_url = 'https://www.groupfuns.com/topupstatus/?orderid=';
+    public $callback_url = 'https://www.risecrowd.org/topupstatus/?orderid=';
     //代收秘钥
-    public $key = "f589cde519a448aa8c1ff8c01c17375c";
+    public $key = "d0a99d3cb65144b9a483e9c63ac49613";
     //代付秘钥
     public $daikey = "f589cde519a448aa8c1ff8c01c17375c";
     //appid
@@ -38,17 +38,19 @@ class Shpay extends Model
         $param = [
             'mchtId' => $channel_info['merchantid'],
             'appId' => $this->appid,
+            'countryCode' => 'NG',
+            'channelCode' => 'new-00087663',
             'requestTime' => date("Y-m-d H:i:s",time()),
+            'notifyUrl' => $this->notify_pay,
             'signType' => "MD5",
             'transAmt' => number_format($price,2,'.',''),
             'name' => "Asiegbu Chidiebere",
             'mobile' => "2348039386322",
             'email' => "gg743567744@gmail.com",
             'outTradeNo' => $order_id,
-            'body' => "fungrouping",
-            'notifyUrl' => $this->notify_pay,
-            'subject' => 'fungrouping',
-            'extInfo' => 'fungrouping'
+            'body' => "risecrowd",
+            'subject' => 'risecrowd',
+            'extInfo' => 'risecrowd'
         ];
         $sign = $this->generateSign($param,$this->key);
         $param['sign'] = $sign;
@@ -105,21 +107,34 @@ class Shpay extends Model
      */
     public function withdraw($data, $channel)
     {
+        $bank_code =  json_decode(config('site.bank_code'),true);
+        foreach ($bank_code as $value){
+            if($value['label'] == $data['bankname']){
+                $bankname = $value['value'];
+                break;
+            }
+        }
+        if(empty($bankname)){
+            return ['success'=>false,'msg'=>'找不到银行'];
+        }
+        $bankname = str_replace('NGN','',$bankname);
         $param = [
             'mchtId' => $channel['merchantid'],
             'appId' => $this->appid,
+            'countryCode' => 'NG',
+            'channelCode' => 'new-00087663',
             'requestTime' => date("Y-m-d H:i:s",time()),
             'signType' => "MD5",
             // 'transAmt' => number_format($data['trueprice'],2),
             'transAmt' => number_format($data['trueprice'],2,'.',''),
             'accountName' => $data['username'],
             'accountNo' => $data['bankcard'],
-            'bankCode' => $data['bankname'],
+            'bankCode' => $bankname,
             'outTradeNo' => $data['order_id'],
-            'body' => "fungrouping",
+            'body' => "risecrowd",
             'notifyUrl' => $this->notify_dai,
-            'subject' => 'fungrouping',
-            'extInfo' => 'fungrouping',
+            'subject' => 'risecrowd',
+            'extInfo' => 'risecrowd',
         ];
         $sign = $this->generateSign($param,$this->key);
         $param['sign'] = $sign;
