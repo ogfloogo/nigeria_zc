@@ -154,6 +154,10 @@ class Shpay extends Model
     {
         $sign = $params['sign'];
         unset($params['sign']);
+        unset($params['paymentTransNo']);
+        unset($params['reference']);
+        unset($params['paymentAmount']);
+        unset($params['extInfo']);
         $check = $this->generateSign($params,$this->key);
         if ($sign != $check) {
             Log::mylog('验签失败', $params, 'Shpaydfhd');
