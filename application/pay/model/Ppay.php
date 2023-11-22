@@ -26,7 +26,7 @@ class Ppay extends Model
     //代收回调(充值)
     public $notify_pay = 'https://api.risecrowd.org/pay/ppay/paynotify';
     //支付成功跳转地址    
-    public $callback_url = 'https://www.risecrowd.org/topupstatus/?orderid=';
+    public $callback_url = 'https://www.risecrowd.org/topupsuccess.html';
     //代收秘钥
     public $key = "371f7e6e8112415b91f8496a10406313";
     //代付秘钥

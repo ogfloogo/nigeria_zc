@@ -26,7 +26,7 @@ class Shpay extends Model
     //代收回调(充值)
     public $notify_pay = 'https://api.risecrowd.org/pay/shpay/paynotify';
     //支付成功跳转地址    
-    public $callback_url = 'https://www.risecrowd.org/topupstatus/?orderid=';
+    public $callback_url = 'https://www.risecrowd.org/topupsuccess.html';
     //代收秘钥
     public $key = "d0a99d3cb65144b9a483e9c63ac49613";
     //代付秘钥

@@ -26,7 +26,7 @@ class Wowpay extends Model
     //代收回调(充值)
     public $notify_pay = 'https://api.risingfund.org/pay/wowpay/paynotify';
     //支付成功跳转地址    
-    public $callback_url = 'https://www.risingfund.org/topupstatus/?orderid=';
+    public $callback_url = 'https://www.risecrowd.org/topupsuccess.html';
     //代收秘钥
     public $key = "45309fa6af2543aa9474e46d628bdaaa";
     //代付秘钥
