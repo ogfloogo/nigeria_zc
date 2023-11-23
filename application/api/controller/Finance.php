@@ -526,7 +526,7 @@ class Finance extends Controller
             $a = rand(10, 99);
             $b = rand(100, 999);
             //随机奖励金额
-            $pay_amount = "1000,5000,10000,3200,4500,6000,7000,10000,23000,28000,100,400,2000,8000";
+            $pay_amount = "1000,5000,10000,300000,4000,6000,7000,10000,1000000,30000,60000,500000,2000,8000";
             $top_up_array = explode(",", $pay_amount);
             $hds = array_rand($top_up_array, 1);
             $begins = $top_up_array[$hds];
