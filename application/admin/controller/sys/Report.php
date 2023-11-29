@@ -65,7 +65,7 @@ class Report extends Backend
             $newcashnum = (new UserCash())->where(['createtime'=>['between',[$start,$end]],'status'=>3])->group('user_id')->column('user_id');
             $newcashuser = (new User())->where(['sid'=>0,'id'=>['in',$newcashnum]])->column('id');
             $value['newcashnum'] = count($newcashuser);
-            $value['newrecharge'] = (new UserCash())->where(['user_id'=>['in',$newrechargeuser],'createtime'=>['between',[$start,$end]]])->sum('price');
+            $value['newrecharge'] = (new UserRecharge())->where(['user_id'=>['in',$newrechargeuser],'createtime'=>['between',[$start,$end]]])->sum('price');
             $value['newcash'] = (new UserCash())->where(['user_id'=>['in',$newcashuser],'createtime'=>['between',[$start,$end]]])->sum('price');
         }
 //        var_dump($list);exit;
