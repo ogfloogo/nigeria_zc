@@ -54,8 +54,8 @@ class Report extends Backend
             ->order($sort, $order)
             ->paginate($limit);
         foreach ($list as &$value){
-            $start = strtotime("{$value['date']} 00:00:00") - 25200;
-            $end = strtotime("{$value['date']} 23:59:59") - 25200;
+            $start = strtotime("{$value['date']} 00:00:00") + 25200;
+            $end = strtotime("{$value['date']} 23:59:59") + 25200;
             $newuser = (new User())->where(['sid'=>0])->where(['createtime'=>['between',[$start,$end]]])->column('id');
             $value['newuser'] = count($newuser);
             $value['neworder'] = (new FinanceOrder())->where(['is_robot'=>0,'user_id'=>['in',$newuser]])->group('user_id')->count();
@@ -86,8 +86,8 @@ class Report extends Backend
             ->order($sort, $order)
             ->paginate($limit);
         foreach ($list as &$value){
-            $start = strtotime("{$value['date']} 00:00:00") - 25200;
-            $end = strtotime("{$value['date']} 23:59:59") - 25200;
+            $start = strtotime("{$value['date']} 00:00:00") + 25200;
+            $end = strtotime("{$value['date']} 23:59:59") + 25200;
             $newuser = (new User())->where(['sid'=>['<>',0]])->where(['createtime'=>['between',[$start,$end]]])->column('id');
             $value['newuser'] = count($newuser);
             $value['neworder'] = (new FinanceOrder())->where(['is_robot'=>0,'user_id'=>['in',$newuser]])->group('user_id')->count();
