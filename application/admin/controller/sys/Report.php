@@ -54,13 +54,13 @@ class Report extends Backend
             ->order($sort, $order)
             ->paginate($limit);
         foreach ($list as &$value){
-            $value['user'] = (new User())->where(['sid'=>0])->whereTime('createtime',$value['date'])->count();
+            $value['newuser'] = (new User())->where(['sid'=>0])->whereTime('createtime',$value['date'])->count();
             $order = (new FinanceOrder())->where(['is_robot'=>0])->whereTime('createtime',$value['date'])->group('user_id')->column('user_id');
-            $value['order'] = (new User())->where(['sid'=>0,'id'=>['in',$order]])->count();
+            $value['neworder'] = (new User())->where(['sid'=>0,'id'=>['in',$order]])->count();
             $recharge = (new UserRecharge())->whereTime('createtime',$value['date'])->group('user_id')->column('user_id');
-            $value['recharge'] = (new User())->where(['sid'=>0,'id'=>['in',$recharge]])->count();
+            $value['newrecharge'] = (new User())->where(['sid'=>0,'id'=>['in',$recharge]])->count();
             $cash = (new UserCash())->whereTime('createtime',$value['date'])->group('user_id')->column('user_id');
-            $value['cash'] = (new User())->where(['sid'=>0,'id'=>['in',$cash]])->count();
+            $value['newcash'] = (new User())->where(['sid'=>0,'id'=>['in',$cash]])->count();
         }
         var_dump($list);exit;
         $result = ['total' => $list->total(), 'rows' => $list->items()];
