@@ -61,8 +61,8 @@ class Report extends Backend
             $value['neworder'] = (new FinanceOrder())->where(['is_robot'=>0,'user_id'=>['in',$newuser]])->group('user_id')->count();
             $value['newrechargenum'] = (new UserRecharge())->where(['user_id'=>['in',$newuser],'status'=>1])->group('user_id')->count();
             $value['newcashnum'] = (new UserCash())->where(['user_id'=>['in',$newuser],'status'=>3])->group('user_id')->count();
-            $value['newrecharge'] = (new UserRecharge())->where(['user_id'=>['in',$newuser],'createtime'=>['between',[$start,$end]],'status'=>1])->sum('price');
-            $value['newcash'] = (new UserCash())->where(['user_id'=>['in',$newuser],'createtime'=>['between',[$start,$end]],'status'=>3])->sum('price');
+            $value['newrecharge'] = (new UserRecharge())->where(['user_id'=>['in',$newuser],'status'=>1])->sum('price');
+            $value['newcash'] = (new UserCash())->where(['user_id'=>['in',$newuser],'status'=>3])->sum('price');
         }
 //        var_dump($list);exit;
         $result = ['total' => $list->total(), 'rows' => $list->items()];
@@ -93,8 +93,8 @@ class Report extends Backend
             $value['neworder'] = (new FinanceOrder())->where(['is_robot'=>0,'user_id'=>['in',$newuser]])->group('user_id')->count();
             $value['newrechargenum'] = (new UserRecharge())->where(['user_id'=>['in',$newuser],'status'=>1])->group('user_id')->count();
             $value['newcashnum'] = (new UserCash())->where(['user_id'=>['in',$newuser],'status'=>3])->group('user_id')->count();
-            $value['newrecharge'] = (new UserRecharge())->where(['user_id'=>['in',$newuser],'createtime'=>['between',[$start,$end]],'status'=>1])->sum('price');
-            $value['newcash'] = (new UserCash())->where(['user_id'=>['in',$newuser],'createtime'=>['between',[$start,$end]],'status'=>3])->sum('price');
+            $value['newrecharge'] = (new UserRecharge())->where(['user_id'=>['in',$newuser],'status'=>1])->sum('price');
+            $value['newcash'] = (new UserCash())->where(['user_id'=>['in',$newuser],'status'=>3])->sum('price');
 
         }
 //        var_dump($list);exit;
