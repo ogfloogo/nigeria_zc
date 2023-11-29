@@ -79,8 +79,10 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                         {field: 'date', title: __('Date'), operate: 'LIKE'},
                         {field: 'newuser', title: __('注册人数')},
                         {field: 'neworder', title: __('下单人数')},
-                        {field: 'newrecharge', title: __('充值人数')},
-                        {field: 'newcash', title: __('提现人数')},
+                        {field: 'newrechargenum', title: __('充值人数')},
+                        {field: 'newcashnum', title: __('提现人数')},
+                        {field: 'newrecharge', title: __('充值金额')},
+                        {field: 'newcash', title: __('提现金额')},
                         {field: 'createtime', title: __('Createtime'), operate:'RANGE', addclass:'datetimerange', autocomplete:false, formatter: Table.api.formatter.datetime},
                         // {field: 'updatetime', title: __('Updatetime'), operate:'RANGE', addclass:'datetimerange', autocomplete:false, formatter: Table.api.formatter.datetime},
                         // {field: 'operate', title: __('Operate'), table: table, events: Table.api.events.operate, formatter: Table.api.formatter.operate}
