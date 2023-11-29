@@ -56,11 +56,11 @@ class Report extends Backend
         foreach ($list as &$value){
             $value['user'] = (new User())->where(['sid'=>0])->whereTime('createtime',$value['date'])->count();
             $order = (new FinanceOrder())->where(['is_robot'=>0])->whereTime('createtime',$value['date'])->group('user_id')->column('user_id');
-            $value['order'] = (new User())->where(['sid'=>0,'user_id'=>['in',$order]])->count();
+            $value['order'] = (new User())->where(['sid'=>0,'id'=>['in',$order]])->count();
             $recharge = (new UserRecharge())->whereTime('createtime',$value['date'])->group('user_id')->column('user_id');
-            $value['recharge'] = (new User())->where(['sid'=>0,'user_id'=>['in',$recharge]])->count();
+            $value['recharge'] = (new User())->where(['sid'=>0,'id'=>['in',$recharge]])->count();
             $cash = (new UserCash())->whereTime('createtime',$value['date'])->group('user_id')->column('user_id');
-            $value['cash'] = (new User())->where(['sid'=>0,'user_id'=>['in',$cash]])->count();
+            $value['cash'] = (new User())->where(['sid'=>0,'id'=>['in',$cash]])->count();
         }
         $result = ['total' => $list->total(), 'rows' => $list->items()];
         return json($result);
