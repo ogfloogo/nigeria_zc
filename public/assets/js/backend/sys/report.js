@@ -94,6 +94,51 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
             Table.api.bindevent(table);
         },
 
+        index3: function () {
+            // 初始化表格参数配置
+            Table.api.init({
+                extend: {
+                    index_url: 'sys/report/index3' + location.search,
+                    add_url: 'sys/report/add',
+                    edit_url: 'sys/report/edit',
+                    del_url: 'sys/report/del',
+                    multi_url: 'sys/report/multi',
+                    import_url: 'sys/report/import',
+                    table: 'report',
+                }
+            });
+
+            var table = $("#table");
+
+            // 初始化表格
+            table.bootstrapTable({
+                url: $.fn.bootstrapTable.defaults.extend.index_url,
+                pk: 'id',
+                sortName: 'id',
+                fixedColumns: true,
+                fixedRightNumber: 1,
+                columns: [
+                    [
+                        // {checkbox: true},
+                        // {field: 'id', title: __('Id')},
+                        {field: 'date', title: __('Date'), operate: 'LIKE'},
+                        {field: 'newuser', title: __('注册人数')},
+                        {field: 'neworder', title: __('下单人数')},
+                        {field: 'newrechargenum', title: __('充值人数')},
+                        {field: 'newcashnum', title: __('提现人数')},
+                        {field: 'newrecharge', title: __('充值金额')},
+                        {field: 'newcash', title: __('提现金额')},
+                        {field: 'createtime', title: __('Createtime'), operate:'RANGE', addclass:'datetimerange', autocomplete:false, formatter: Table.api.formatter.datetime},
+                        // {field: 'updatetime', title: __('Updatetime'), operate:'RANGE', addclass:'datetimerange', autocomplete:false, formatter: Table.api.formatter.datetime},
+                        // {field: 'operate', title: __('Operate'), table: table, events: Table.api.events.operate, formatter: Table.api.formatter.operate}
+                    ]
+                ]
+            });
+
+            // 为表格绑定事件
+            Table.api.bindevent(table);
+        },
+
         add: function () {
             Controller.api.bindevent();
         },
