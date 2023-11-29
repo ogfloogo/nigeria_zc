@@ -62,7 +62,6 @@ class Report extends Backend
             $cash = (new UserCash())->whereTime('createtime',$value['date'])->group('user_id')->column('user_id');
             $value['cash'] = (new User())->where(['sid'=>0,'user_id'=>['in',$cash]])->count();
         }
-        var_dump($list);exit;
         $result = ['total' => $list->total(), 'rows' => $list->items()];
         return json($result);
     }
