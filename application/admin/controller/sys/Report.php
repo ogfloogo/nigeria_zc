@@ -59,9 +59,9 @@ class Report extends Backend
             $value['newuser'] = (new User())->where(['sid'=>0])->where(['createtime'=>['between',[$start,$end]]])->count();
             $order = (new FinanceOrder())->where(['is_robot'=>0])->where(['createtime'=>['between',[$start,$end]]])->group('user_id')->column('user_id');
             $value['neworder'] = (new User())->where(['sid'=>0,'id'=>['in',$order]])->count();
-            $newrechargenum = (new UserRecharge())->where(['createtime'=>['between',[$start,$end]]])->group('user_id')->column('user_id');
+            $newrechargenum = (new UserRecharge())->where(['createtime'=>['between',[$start,$end]],'status'=>1])->group('user_id')->column('user_id');
             $value['newrechargenum'] = (new User())->where(['sid'=>0,'id'=>['in',$newrechargenum]])->count();
-            $newcashnum = (new UserCash())->where(['createtime'=>['between',[$start,$end]]])->group('user_id')->column('user_id');
+            $newcashnum = (new UserCash())->where(['createtime'=>['between',[$start,$end]],'status'=>3])->group('user_id')->column('user_id');
             $value['newcashnum'] = (new User())->where(['sid'=>0,'id'=>['in',$newcashnum]])->count();
             $value['newrecharge'] = (new UserCash())->where(['user_id'=>['in',$newrechargenum],'createtime'=>['between',[$start,$end]]])->sum('price');
             $value['newcash'] = (new UserCash())->where(['user_id'=>['in',$newcashnum],'createtime'=>['between',[$start,$end]]])->sum('price');
