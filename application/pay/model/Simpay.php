@@ -216,6 +216,7 @@ class Simpay extends Model
 
     public function generateSign2(array $params)
     {
+        ksort($params);
         $params_str = '';
         foreach ($params as $k => $v) {
             if ($v) {
