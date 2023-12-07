@@ -76,32 +76,42 @@ class Simpay extends Model
     public function paynotify($params)
     {
         $params = $this->de3des($params,$this->key3des);
+        $params = $this->de3desarr($params);
         Log::mylog('解密3des', $params, 'simpayhd');
         if ($params['ordstate'] == 1) {
             $sign = $params['sign'];
             unset($params['sign']);
-            unset($params['signType']);
-            $check = $this->generateSign($params, $this->key);
+            $params['key'] = $this->key;
+            $check = $this->generateSign($params);
             if ($sign != $check) {
-                Log::mylog('验签失败', $params, 'wowpayhd');
+                Log::mylog('验签失败', $params, 'simpayhd');
                 return false;
             }
-            $order_id = $params['mchOrderNo']; //商户订单号
-            $order_num = $params['orderNo']; //平台订单号
-            $amount = $params['amount']; //支付金额
-            (new Paycommon())->paynotify($order_id, $order_num, $amount, 'wowpayhd');
+            $order_id = $params['merorder']; //商户订单号
+            $order_num = $params['ordnum']; //平台订单号
+            $amount = $params['realprice']/100; //支付金额
+            (new Paycommon())->paynotify($order_id, $order_num, $amount, 'simpayhd');
         } else {
             //更新订单信息
             $upd = [
                 'status' => 2,
-                'order_id' => $params['mchOrderNo'],
+                'order_id' => $params['merorder'],
                 'updatetime' => time(),
             ];
-            (new Userrecharge())->where('order_id', $params['mchOrderNo'])->where('status', 0)->update($upd);
-            Log::mylog('支付回调失败！', $params, 'wowpayhd');
+            (new Userrecharge())->where('order_id', $params['merorder'])->where('status', 0)->update($upd);
+            Log::mylog('支付回调失败！', $params, 'simpayhd');
         }
     }
 
+    public function de3desarr($value){
+
+        $paramArr = explode('&',$value);
+        foreach ($paramArr as $param) {
+            $paramParts = explode("=", $param);
+            $params[$paramParts[0]] = $paramParts[1];
+        }
+        return $params;
+    }
     /**
      *提现 
      */
