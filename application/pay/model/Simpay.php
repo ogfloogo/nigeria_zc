@@ -47,7 +47,8 @@ class Simpay extends Model
             'merchantid' => $channel_info['merchantid'],
             'action' => 'pay',
         ];
-        $params['body'] = $this->en3des($param,$this->key3des);
+        $body = $this->generateSign2($param);
+        $params['body'] = $this->en3des($body,$this->key3des);
         Log::mylog("提交参数", $params, "simpay");
         $return_json = $this->curl($param);
         Log::mylog("返回参数", $return_json, "simpay");
@@ -210,6 +211,19 @@ class Simpay extends Model
         $params_str = $params_str.$key;
         Log::mylog('验签串', $params_str, 'simpay');
         return strtolower(md5($params_str));
+    }
+
+    public function generateSign2(array $params)
+    {
+        $params_str = '';
+        foreach ($params as $k => $v) {
+            if ($v) {
+                $params_str = $params_str . $k . '=' . $v . '&';
+            }
+        }
+        $params_str = rtrim($params_str,'&');
+        Log::mylog('generateSign2', $params_str, 'simpay');
+        return $params_str;
     }
 
     public function curl($postdata)
