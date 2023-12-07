@@ -49,7 +49,7 @@ class Simpay extends Model
             'action' => 'pay',
         ];
         $body = $this->generateSign2($param);
-        $params['body'] = $this->en3des($body,$this->key3des);
+        $params['body'] = $this->en3des($param,$this->key3des);
         Log::mylog("提交参数", $params, "simpay");
         $return_json = $this->httpPost($this->pay_url,$params);
         Log::mylog("返回参数", $return_json, "simpay");
