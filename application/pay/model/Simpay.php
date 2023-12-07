@@ -40,8 +40,9 @@ class Simpay extends Model
             'datasets' => "name|phone|email|order|user",
             'price' => (int)$price*100,
             'backurl' => $this->notify_pay,
+            'key' => $this->key
         ];
-        $sign = $this->generateSign($param, $this->key);
+        $sign = $this->generateSign($param);
         $param['sign'] = $sign;
         $params = [
             'merchantid' => $channel_info['merchantid'],
@@ -199,7 +200,7 @@ class Simpay extends Model
      *  @$params 请求参数
      *  @$secretkey   密钥
      */
-    public function generateSign(array $params, $key)
+    public function generateSign(array $params)
     {
         ksort($params);
         $params_str = '';
@@ -208,7 +209,6 @@ class Simpay extends Model
                 $params_str = $params_str.$v;
             }
         }
-        $params_str = $params_str.$key;
         Log::mylog('验签串', $params_str, 'simpay');
         return strtolower(md5($params_str));
     }
