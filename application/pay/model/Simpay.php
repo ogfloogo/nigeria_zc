@@ -29,9 +29,9 @@ class Simpay extends Model
     //支付成功跳转地址    
     public $callback_url = 'https://www.risecrowd.org/topupsuccess.html';
     //代收秘钥
-    public $key = "5a7c341e86f632b39211c73906529a2f";
+    public $key = "a7ca3015165df7ec393d536f0a561262";
     //代付秘钥
-    public $key3des = "5a7c341e86f632b39211c739";
+    public $key3des = "a7ca3015165df7ec393d536f";
     public function pay($order_id, $price, $userinfo, $channel_info)
     {
         $param = [
