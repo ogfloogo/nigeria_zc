@@ -30,7 +30,7 @@ class Simpay extends Controller
     {
         $data = file_get_contents("php://input");
         Log::mylog('提现回调_data', $data, 'simpaydfhd');
-        (new ModelSimpay())->paydainotify(json_decode($data,true));
+        (new ModelSimpay())->paydainotify($data);
         exit('success');
     } 
 }

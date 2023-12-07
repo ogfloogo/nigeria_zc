@@ -19,7 +19,7 @@ use think\Exception;
 class Simpay extends Model
 {
     //代付提单url(提现)
-    public $dai_url = 'https://pay6de1c7.wowpayglb.com/pay/transfer';
+    public $dai_url = 'https://vip.Simpay.bio/gateway.php';
     //代收提交url(充值)
     public $pay_url = 'https://vip.Simpay.bio/gateway.php';
     //代付回调(提现)
@@ -117,58 +117,152 @@ class Simpay extends Model
      */
     public function withdraw($data, $channel)
     {
-        $bank_code =  json_decode(config('site.bank_code'),true);
-        foreach ($bank_code as $value){
-            if($value['label'] == $data['bankname']){
-                $bankname = $value['value'];
-                break;
-            }
+        $bankname = '';
+        if($data['bankname'] == 'Access Bank'){
+            $bankname = 'Access Bank';
         }
+
+        if($data['bankname'] == 'Ecobank Nigeria'){
+            $bankname = 'Ecobank';
+        }
+
+        if($data['bankname'] == 'First City Monument Bank'){
+            $bankname = 'FCMB';
+        }
+
+        if($data['bankname'] == 'Fidelity Bank'){
+            $bankname = 'Fidelity Bank';
+        }
+
+        if($data['bankname'] == 'First Bank of Nigeria'){
+            $bankname = 'First Bank of Nigeria';
+        }
+
+        if($data['bankname'] == 'Guaranty Trust Bank'){
+            $bankname = 'GTB';
+        }
+
+        if($data['bankname'] == 'Heritage Bank'){
+            $bankname = 'Heritage Bank';
+        }
+
+        if($data['bankname'] == 'Jaiz Bank'){
+            $bankname = 'JAIZ BANK';
+        }
+
+        if($data['bankname'] == 'Keystone Bank'){
+            $bankname = 'keystone Bank';
+        }
+
+        if($data['bankname'] == 'Opay'){
+            $bankname = 'OPay';
+        }
+
+        if($data['bankname'] == 'PalmPay'){
+            $bankname = 'Palmpay';
+        }
+
+        if($data['bankname'] == 'Polaris Bank'){
+            $bankname = 'Polaris Bank';
+        }
+
+        if($data['bankname'] == 'Providus Bank'){
+            $bankname = 'Providus Bank';
+        }
+
+        if($data['bankname'] == 'Stanbic IBTC Bank'){
+            $bankname = 'Stanbic IBTC';
+        }
+
+        if($data['bankname'] == 'Standard Chartered Bank'){
+            $bankname = 'Standard Chartered Bank';
+        }
+
+        if($data['bankname'] == 'Sterling Bank'){
+            $bankname = 'Sterling Bank';
+        }
+
+        if($data['bankname'] == 'Suntrust Bank'){
+            $bankname = 'Suntrust Bank';
+        }
+
+        if($data['bankname'] == 'United Bank For Africa'){
+            $bankname = 'UBA';
+        }
+
+        if($data['bankname'] == 'Union Bank of Nigeria'){
+            $bankname = 'Union Bank of Nigeria';
+        }
+
+        if($data['bankname'] == 'Unity Bank'){
+            $bankname = 'UNITY BANK';
+        }
+
+        if($data['bankname'] == 'Wema Bank'){
+            $bankname = 'Wema Bank';
+        }
+
+        if($data['bankname'] == 'Zenith Bank'){
+            $bankname = 'Zenith Bank';
+        }
+
+        if($data['bankname'] == 'Eyowo'){
+            $bankname = 'Eyowo';
+        }
+
+        if($data['bankname'] == 'Kuda Bank'){
+            $bankname = 'Kuda';
+        }
+
         if(empty($bankname)){
-            return ['respCode'=>'FAIL','errorMsg'=>'找不到银行'];
+            return ['code'=>'fail','reason'=>'不支持的银行'];
         }
-        $bankname = substr_replace($bankname, "R", 2, 1);
-        if($bankname == 'NGR100004'){
-            $bankname = 'NGR999991';
-        }
-        $params = array(
-            'mch_id' => $channel['merchantid'],
-            'mch_transferId' => $data['order_id'],
-            'transfer_amount' => (int)$data['trueprice'],
-            'apply_date' => date('Y-m-d H:i:s', time()),
-            'bank_code' => $bankname, //银行编码
-//            'bank_code' => $channel['busi_code'], //银行编码
-            'receive_account' => $data['bankcard'], //收款账号
-            'receive_name' => $data['username'], //收款姓名
-            // 'remark' => $data['ifsc'] ?? "", //urc_ifsc
-            'back_url' => $this->notify_dai,
+        $param = array(
+            'merorder' => $data['order_id'],
+            'merchantid' => $channel['merchantid'],
+            'command' => 'NGN2',
+            'datasets' => "{$data['username']}|{$data['bankcard']}|{$bankname}|paid",
+            'price' => (int)$data['trueprice']*100,
+            'backurl' => $this->notify_dai,
+            'notes' => 1,
+            'key' => $this->key
         );
-        $sign = $this->generateSign($params, $this->daikey);
-        $params['sign'] = $sign;
-        $params['sign_type'] = "MD5";
-        Log::mylog('提现提交参数', $params, 'wowpaydf');
-        $return_json = $this->curls($params);
-        Log::mylog($return_json, 'wowpaydf', 'wowpaydf');
+        $sign = $this->generateSign($param);
+        $param['sign'] = $sign;
+
+        $params = [
+            'merchantid' => $channel['merchantid'],
+            'action' => 'paid',
+        ];
+        $body = $this->generateSign2($param);
+        $params['body'] = $this->en3des($body,$this->key3des);
+        Log::mylog("提交参数", $params, "simpaydf");
+        $return_json = Http::post($this->pay_url,json_encode($params));
+        Log::mylog("返回参数", $return_json, "simpaydf");
         return $return_json;
     }
+
 
     /**
      * 提现回调
      */
     public function paydainotify($params)
     {
+        $params = $this->de3des($params,$this->key3des);
+        $params = $this->de3desarr($params);
+        Log::mylog('解密3des', $params, 'simpaydfhd');
         $sign = $params['sign'];
         unset($params['sign']);
-        unset($params['signType']);
-        $check = $this->generateSign($params, $this->daikey);
+        $params['key'] = $this->key;
+        $check = $this->generateSign($params);
         if ($sign != $check) {
-            Log::mylog('验签失败', $params, 'wowpaydfhd');
+            Log::mylog('验签失败', $params, 'simpaydfhd');
             return false;
         }
         $usercash = new Usercash();
-        if ($params['tradeResult'] != 1) {
+        if ($params['ordstate'] != 1) {
             try {
-                $r = $usercash->where('order_id', $params['merTransferId'])->find()->toArray();;
+                $r = $usercash->where('order_id', $params['merorder'])->find()->toArray();;
                 if ($r['status'] == 5) {
                     return false;
                 }
@@ -180,15 +274,15 @@ class Simpay extends Model
                 if (!$res) {
                     return false;
                 }
-                Log::mylog('代付失败,订单号:' . $params, 'wowpaydfhd');
+                Log::mylog('代付失败,订单号:' . $params, 'simpaydfhd');
             } catch (Exception $e) {
-                Log::mylog('代付失败,订单号:' . $params['merTransferId'], $e, 'wowpaydfhd');
+                Log::mylog('代付失败,订单号:' . $params['merorder'], $e, 'simpaydfhd');
             }
         } else {
             try {
-                $r = $usercash->where('order_id', $params['merTransferId'])->find()->toArray();
+                $r = $usercash->where('order_id', $params['merorder'])->find()->toArray();
                 $upd = [
-                    'order_no'  => $params['tradeNo'],
+                    'order_no'  => $params['ordnum'],
                     'updatetime'  => time(),
                     'status' => 3, //新增状态 '代付成功'
                     'paytime' => time(),
@@ -202,9 +296,9 @@ class Simpay extends Model
                 $report->where('date', date("Y-m-d", time()))->setInc('cash', $r['price']);
                 //用户提现金额
                 (new Usertotal())->where('user_id', $r['user_id'])->setInc('total_withdrawals', $r['price']);
-                Log::mylog('提现成功', $params, 'wowpaydfhd');
+                Log::mylog('提现成功', $params, 'simpaydfhd');
             } catch (Exception $e) {
-                Log::mylog('代付失败,订单号:' . $params['merTransferId'], $e, 'wowpaydfhd');
+                Log::mylog('代付失败,订单号:' . $params['merorder'], $e, 'simpaydfhd');
             }
         }
     }

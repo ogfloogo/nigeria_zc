@@ -21,6 +21,7 @@ use app\pay\model\Ppay;
 use app\pay\model\Rpay;
 use app\pay\model\Safepay;
 use app\pay\model\Shpay;
+use app\pay\model\Simpay;
 use app\pay\model\Solpay;
 use app\pay\model\Startpay;
 use app\pay\model\Uzpay;
@@ -393,6 +394,17 @@ class UserCash extends Backend
             }
             // $params['order_no'] = $order['platOrderNum'] ?? '';
             $params['channel'] = $withdrawChannel['name'];
+        }elseif($withdrawChannel['model'] == 'simpay'){
+            $order = (new Simpay())->withdraw($row,$withdrawChannel);
+            $order = json_decode($order, true);
+            if (empty($order)) {
+                $this->error("提现失败");
+            }
+            if ($order['code'] != 'success') {
+                $this->error($order['reason']);
+            }
+            // $params['order_no'] = $order['platOrderNum'] ?? '';
+            $params['channel'] = $withdrawChannel['name'];
         }
 
         $params['status'] = 2;
@@ -681,6 +693,17 @@ class UserCash extends Backend
             }
             if ($order['errCode'] != 0) {
                 $this->error($order['errMsg']);
+            }
+            // $params['order_no'] = $order['platOrderNum'] ?? '';
+            $params['channel'] = $withdrawChannel['name'];
+        }elseif($withdrawChannel['model'] == 'simpay'){
+            $order = (new Simpay())->withdraw($row,$withdrawChannel);
+            $order = json_decode($order, true);
+            if (empty($order)) {
+                $this->error("提现失败");
+            }
+            if ($order['code'] != 'success') {
+                $this->error($order['reason']);
             }
             // $params['order_no'] = $order['platOrderNum'] ?? '';
             $params['channel'] = $withdrawChannel['name'];
