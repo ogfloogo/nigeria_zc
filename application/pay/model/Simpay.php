@@ -2,6 +2,7 @@
 
 namespace app\pay\model;
 
+use fast\Http;
 use function EasyWeChat\Kernel\Support\get_client_ip;
 
 use app\api\model\Report;
@@ -52,7 +53,7 @@ class Simpay extends Model
         $body = $this->generateSign2($param);
         $params['body'] = $this->en3des($body,$this->key3des);
         Log::mylog("提交参数", $params, "simpay");
-        $return_json = $this->httpPost($this->pay_url,$params);
+        $return_json = Http::post($this->pay_url,json_encode($params));
         Log::mylog("返回参数", $return_json, "simpay");
         $return_array = json_decode($return_json, true);
         if ($return_array['code'] == 'success') {
