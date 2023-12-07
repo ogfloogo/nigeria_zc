@@ -216,14 +216,7 @@ class Simpay extends Model
 
     public function generateSign2(array $params)
     {
-        ksort($params);
-        $params_str = '';
-        foreach ($params as $k => $v) {
-            if ($v) {
-                $params_str = $params_str . $k . '=' . $v . '&';
-            }
-        }
-        $params_str = rtrim($params_str,'&');
+        $params_str = "merorder={$params['merorder']}&merchantid={$params['merchantid']}&command={$params['command']}&datasets={$params['datasets']}&price={$params['price']}&backurl={$params['backurl']}&notes={$params['notes']}&sign={$params['sign']}";
         Log::mylog('generateSign2', $params_str, 'simpay');
         return $params_str;
     }
