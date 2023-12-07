@@ -313,9 +313,7 @@ class Simpay extends Model
         ksort($params);
         $params_str = '';
         foreach ($params as $k => $v) {
-            if ($v) {
-                $params_str = $params_str.$v;
-            }
+            $params_str = $params_str.$v;
         }
         Log::mylog('验签串', $params_str, 'simpay');
         return strtolower(md5($params_str));
