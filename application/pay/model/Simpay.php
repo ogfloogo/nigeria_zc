@@ -75,7 +75,9 @@ class Simpay extends Model
      */
     public function paynotify($params)
     {
-        if ($params['tradeResult'] == 1) {
+        $params = $this->en3des($params,$this->key3des);
+        Log::mylog('解密3des', $params, 'simpayhd');
+        if ($params['ordstate'] == 1) {
             $sign = $params['sign'];
             unset($params['sign']);
             unset($params['signType']);
