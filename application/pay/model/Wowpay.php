@@ -112,9 +112,6 @@ class Wowpay extends Model
             return ['respCode'=>'FAIL','errorMsg'=>'找不到银行'];
         }
         $bankname = substr_replace($bankname, "R", 2, 1);
-        if($bankname == 'NGR100004'){
-            $bankname = 'NGR999991';
-        }
         $params = array(
             'mch_id' => $channel['merchantid'],
             'mch_transferId' => $data['order_id'],

@@ -109,9 +109,6 @@ class Ppay extends Model
         if(empty($bankname)){
             return ['code'=>'FAIL','msg'=>'找不到银行'];
         }
-        if($bankname == 'NGN100004'){
-            $bankname = 'NGN999991';
-        }
         $param = array(
             'merNo' => $channel['merchantid'],
             'merchantOrderNo' => $data['order_id'],
